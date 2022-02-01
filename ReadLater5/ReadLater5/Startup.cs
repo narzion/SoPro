@@ -1,4 +1,6 @@
 using Data;
+using Data.Repository;
+using Entity.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,6 +19,8 @@ namespace ReadLater5
 {
     public class Startup
     {
+        private object configuration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,6 +40,9 @@ namespace ReadLater5
                 .AddEntityFrameworkStores<ReadLaterDataContext>();
 
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IBookmarkRepository, BookmarkRepository>();
+            services.AddScoped<IBookmarkService, BookmarkService>();
+            services.AddAutoMapper(typeof(BookmarkService).Assembly);
 
             services.AddControllersWithViews();
         }
